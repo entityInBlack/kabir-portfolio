@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home — Kabir</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Kabir</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="service.html">Service</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- =====================================================================
+         SECTION 1 — BANNER SLIDER (Bootstrap Carousel)  [NEW]
+         ===================================================================== -->
+    <section class="p-0">
+      <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
+
+        <!-- Indicators -->
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        </div>
+
+        <!-- Slides -->
+        <div class="carousel-inner">
+
+          <!-- Slide 1 -->
+          <div class="carousel-item active">
+            <div class="carousel-slide slide-1">
+              <div class="carousel-content">
+                <p class="carousel-tagline">Welcome to my world</p>
+                <h1 class="carousel-heading">Hi, I'm <span class="gold">Kabir</span></h1>
+                <p class="carousel-sub">Software Engineer &amp; Full-Stack Developer</p>
+                <a href="portfolio.html" class="btn-primary">View My Work</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-item">
+            <div class="carousel-slide slide-2">
+              <div class="carousel-content">
+                <p class="carousel-tagline">What I do best</p>
+                <h1 class="carousel-heading">Crafting <span class="gold">Elegant</span> Web Solutions</h1>
+                <p class="carousel-sub">From pixel-perfect UIs to robust backend APIs</p>
+                <a href="service.html" class="btn-primary">Explore Services</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-item">
+            <div class="carousel-slide slide-3">
+              <div class="carousel-content">
+                <p class="carousel-tagline">Let's build something great</p>
+                <h1 class="carousel-heading">Got a <span class="gold">Project</span> in Mind?</h1>
+                <p class="carousel-sub">I'm available for freelance &amp; full-time opportunities</p>
+                <a href="contact.html" class="btn-primary">Get In Touch</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================================
+         SECTION 2 — ABOUT ME  [NEW]
+         ===================================================================== -->
+    <section class="bg-navy-light">
+      <div class="container">
+        <div class="row align-items-center g-5">
+
+          <!-- Image column -->
+          <div class="col-lg-5">
+            <div class="about-img-wrapper">
+              <div class="about-img-placeholder">
+                <img src="images/jahin.jpg" alt="Kabir" style="width:100%; height:100%; object-fit:cover; border-radius:16px;">
+                <!-- <div class="about-img-badge">3+ Years Exp.</div> -->
+              </div>
+              <!-- <div class="about-stat about-stat--projects">
+                <strong>15+</strong>
+                <span>Projects</span>
+              </div> -->
+              <!-- <div class="about-stat about-stat--clients">
+                <strong>10+</strong>
+                <span>Clients</span>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- Text column -->
+          <div class="col-lg-7">
+            <p class="section-eyebrow">Get to know me</p>
+            <h2 class="section-title text-start mb-2">About Me</h2>
+            <div class="section-divider" style="margin: 0.5rem 0 1.5rem;"></div>
+
+            <div class="about-text">
+              <p>Hi! I'm <strong style="color:var(--gold)">Kabir</strong>, a passionate Software Engineer
+                based in Dhaka, Bangladesh. I specialise in building modern, responsive, and high-performance
+                web applications that solve real-world problems.</p>
+              <p>With 3+ years of hands-on experience across the full stack — from crafting pixel-perfect
+                React interfaces to designing scalable Node.js APIs — I bring both technical depth and a
+                keen eye for design to every project.</p>
+              <p>When I'm not coding, I'm exploring new technologies, contributing to open-source projects,
+                or mentoring aspiring developers in my community.</p>
+            </div>
+
+            <div class="row g-3 mt-2 mb-4">
+              <div class="col-sm-6">
+                <div class="quick-fact">
+                  <span class="quick-fact-label">📍 Location</span>
+                  <span class="quick-fact-value">Dhaka, Bangladesh</span>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="quick-fact">
+                  <span class="quick-fact-label">🎓 Degree</span>
+                  <span class="quick-fact-value">B.Sc. Computer Science</span>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="quick-fact">
+                  <span class="quick-fact-label">📧 Email</span>
+                  <span class="quick-fact-value">jahinkabir@gmail.com</span>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="quick-fact">
+                  <span class="quick-fact-label">🌐 Freelance</span>
+                  <span class="quick-fact-value">Available</span>
+                </div>
+              </div>
+            </div>
+
+            <a href="about.html" class="btn-primary me-3">More About Me</a>
+            <a href="contact.html" class="btn-outline">Hire Me</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================================
+         SECTION 3 — MISSION & VISION  [NEW]
+         ===================================================================== -->
+    <section class="bg-navy">
+      <div class="container">
+        <p class="section-eyebrow text-center">What drives me</p>
+        <h2 class="section-title">Mission &amp; Vision</h2>
+        <div class="section-divider"></div>
+
+        <div class="row g-4 justify-content-center">
+
+          <div class="col-md-6 col-lg-5">
+            <div class="mv-card mv-card--mission">
+              <div class="mv-icon">🎯</div>
+              <h3 class="mv-title">My Mission</h3>
+              <p class="mv-text">
+                To craft elegant, scalable, and accessible web solutions that genuinely improve people's
+                lives. I am committed to writing clean, maintainable code and delivering products that
+                exceed client expectations — on time and on budget.
+              </p>
+              <ul class="mv-list">
+                <li>Build with purpose &amp; precision</li>
+                <li>Prioritise user experience above all</li>
+                <li>Deliver real business value through technology</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-5">
+            <div class="mv-card mv-card--vision">
+              <div class="mv-icon">🔭</div>
+              <h3 class="mv-title">My Vision</h3>
+              <p class="mv-text">
+                To become a globally recognised full-stack engineer who bridges the gap between
+                cutting-edge technology and human-centred design — contributing to open source,
+                mentoring the next generation, and building products that matter.
+              </p>
+              <ul class="mv-list">
+                <li>Lead impactful engineering teams</li>
+                <li>Contribute to open-source ecosystems</li>
+                <li>Make technology accessible to everyone</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================================
+         SECTION 4 — SERVICE LIST  [EXISTING]
+         ===================================================================== -->
+    <section class="bg-navy-light">
+      <div class="container">
+        <p class="section-eyebrow text-center">What I offer</p>
+        <h2 class="section-title">Services</h2>
+        <div class="section-divider"></div>
+        <div class="row g-4">
+
+          <div class="col-md-6 col-lg-3">
+            <div class="service-card">
+              <span class="service-icon">💻</span>
+              <div class="service-name">Frontend Development</div>
+              <div class="service-description">Responsive, pixel-perfect interfaces with HTML5, CSS3, React, and Bootstrap.</div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="service-card">
+              <span class="service-icon">⚙️</span>
+              <div class="service-name">Backend Development</div>
+              <div class="service-description">Scalable APIs and server-side logic with Node.js, Express, and MySQL.</div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="service-card">
+              <span class="service-icon">🔗</span>
+              <div class="service-name">Full-Stack Development</div>
+              <div class="service-description">End-to-end web applications — from database design to polished UI.</div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="service-card">
+              <span class="service-icon">⚡</span>
+              <div class="service-name">Web Optimisation</div>
+              <div class="service-description">Performance audits, Core Web Vitals improvements, and SEO enhancements.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+<!-- =====================================================================
+     SECTION 5 — CLIENT FEEDBACK
+     ===================================================================== -->
+<section class="bg-navy">
+  <div class="container">
+    <p class="section-eyebrow text-center">Kind words</p>
+    <h2 class="section-title">Client Feedback</h2>
+    <div class="section-divider"></div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="testimonial-card text-center">
+          <div class="testimonial-img-wrapper">
+            <img src="images/apu roy.jpg" alt="Abir Ahmed" class="testimonial-img">
+          </div>
+          <p class="testimonial-text mt-4">
+            "Kabir built our company website from scratch and delivered beyond expectations.
+            The design was stunning and everything loaded incredibly fast."
+          </p>
+          <div class="testimonial-author">— Apu roy, Startup Founder</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  </main>
+
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer text-white">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p class="mb-0">&copy; 2025 Kabir. All rights reserved. &nbsp;|&nbsp;
+            <span id="live-clock" style="color:var(--gold);"></span>
+          </p>
+        </div>
+        <div class="col-md-6 text-end">
+          <a href="#" class="footer-link me-3">GitHub</a>
+          <a href="#" class="footer-link me-3">LinkedIn</a>
+          <a href="#" class="footer-link">Twitter</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
