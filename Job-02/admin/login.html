@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — Kabir</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../index.html">Kabir</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ===================== PAGE TITLE ===================== -->
+    <section class="page-title-section">
+      <div class="container">
+        <h1 class="section-title fade-up fade-up-1">Admin Login</h1>
+        <p class="fade-up fade-up-2">Restricted area — authorized access only.</p>
+        <p class="breadcrumb-nav fade-up fade-up-3">
+          <a href="../index.html">Home</a> &nbsp;/&nbsp; Admin Login
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== LOGIN FORM ===================== -->
+    <section class="contact-form-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-5">
+
+            <div class="service-card" style="padding: 2.5rem;">
+              <form id="loginForm" novalidate>
+
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" class="form-control" placeholder="admin@example.com" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <!-- Feedback -->
+                <div id="formMessage" style="display:none; margin-bottom:1rem; font-weight:600;"></div>
+
+                <button type="submit" class="btn-primary w-100" style="border:none; cursor:pointer;">
+                  Log In 🔒
+                </button>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer text-white">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-12 text-center">
+          <p class="mb-0">&copy; 2025 Kabir. All rights reserved. &nbsp;|&nbsp;
+            <span id="live-clock" style="color:var(--gold);"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Live clock (reused from main.js pattern)
+    function updateClock() {
+      const el = document.getElementById('live-clock');
+      if (el) el.textContent = new Date().toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Login form submission
+    const form = document.getElementById('loginForm');
+    const formMessage = document.getElementById('formMessage');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (!email || !password) {
+        formMessage.style.display = 'block';
+        formMessage.style.color = '#ff6b6b';
+        formMessage.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Logging in...';
+
+      fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+        .then(res => res.json().then(data => ({ ok: res.ok, data })))
+        .then(({ ok, data }) => {
+          formMessage.style.display = 'block';
+          if (ok && data.token) {
+            localStorage.setItem('adminToken', data.token);
+            formMessage.style.color = '#4caf50';
+            formMessage.textContent = 'Login successful! Redirecting...';
+            setTimeout(() => {
+              window.location.href = 'dashboard.html';
+            }, 800);
+          } else {
+            formMessage.style.color = '#ff6b6b';
+            formMessage.textContent = data.error || 'Login failed.';
+          }
+        })
+        .catch(() => {
+          formMessage.style.display = 'block';
+          formMessage.style.color = '#ff6b6b';
+          formMessage.textContent = 'Something went wrong. Please try again.';
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Log In 🔒';
+        });
+    });
+  </script>
+</body>
+</html>

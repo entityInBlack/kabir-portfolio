@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Kabir</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../index.html">Kabir</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ===================== PAGE TITLE ===================== -->
+    <section class="page-title-section">
+      <div class="container">
+        <h1 class="section-title fade-up fade-up-1">Admin Dashboard</h1>
+        <p class="fade-up fade-up-2">Restricted area — authorized access only.</p>
+        <p class="breadcrumb-nav fade-up fade-up-3">
+          <a href="../index.html">Home</a> &nbsp;/&nbsp; Admin Dashboard
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== DASHBOARD CONTENT ===================== -->
+    <section class="contact-form-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7">
+
+            <div id="dashboardContent" class="service-card" style="padding: 2.5rem; display:none;">
+              <p class="gold" style="font-weight:700; letter-spacing:1px; font-size:0.85rem; text-transform:uppercase; margin-bottom:0.6rem;">
+                Welcome back
+              </p>
+              <h2 style="font-family:'Playfair Display', serif; color:var(--white); font-size:1.6rem; margin-bottom:1rem;">
+                <span id="adminEmail">Admin</span>
+              </h2>
+              <p style="color:var(--gray); font-size:0.95rem; margin-bottom:2rem;">
+                You're securely logged in. Project and content management tools will appear here as they're built.
+              </p>
+              <button id="logoutBtn" class="btn-outline" style="border:none; cursor:pointer;">
+                Log Out
+              </button>
+            </div>
+
+            <!-- Shown briefly while verifying token -->
+            <div id="checkingMessage" class="service-card" style="padding:2.5rem; text-align:center;">
+              <p style="color:var(--gray); margin:0;">Checking session...</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer text-white">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-12 text-center">
+          <p class="mb-0">&copy; 2025 Kabir. All rights reserved. &nbsp;|&nbsp;
+            <span id="live-clock" style="color:var(--gold);"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Live clock (reused from login.html pattern)
+    function updateClock() {
+      const el = document.getElementById('live-clock');
+      if (el) el.textContent = new Date().toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // ===================== AUTH CHECK =====================
+    const token = localStorage.getItem('adminToken');
+    const checkingMessage = document.getElementById('checkingMessage');
+    const dashboardContent = document.getElementById('dashboardContent');
+    const adminEmail = document.getElementById('adminEmail');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (!token) {
+      // No token at all — straight to login
+      window.location.href = 'login.html';
+    } else {
+      fetch('/api/auth/verify', {
+        method: 'GET',
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+        .then(res => res.json().then(data => ({ ok: res.ok, data })))
+        .then(({ ok, data }) => {
+          if (ok && data) {
+            checkingMessage.style.display = 'none';
+            dashboardContent.style.display = 'block';
+            adminEmail.textContent = data.email || 'Admin';
+          } else {
+            // Invalid/expired token
+            localStorage.removeItem('adminToken');
+            window.location.href = 'login.html';
+          }
+        })
+        .catch(() => {
+          // Network/server error — fail safe to login
+          localStorage.removeItem('adminToken');
+          window.location.href = 'login.html';
+        });
+    }
+
+    // ===================== LOGOUT =====================
+    logoutBtn.addEventListener('click', function () {
+      localStorage.removeItem('adminToken');
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>
