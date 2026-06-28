@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Post = require('../../models/Post');
 
+console.log('Post type:', typeof Post, 'Post name:', Post && Post.name);
+
+
 // Reuse connection across invocations (serverless best practice)
 let isConnected = false;
 
