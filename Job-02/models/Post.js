@@ -52,5 +52,4 @@ PostSchema.pre('validate', async function (next) {
 });
 
 const existing = mongoose.models.Post;
-console.log('Existing model type:', typeof existing);
 module.exports = existing || mongoose.model('Post', PostSchema);
