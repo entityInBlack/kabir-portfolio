@@ -28,7 +28,7 @@ function slugify(text) {
 
 // Auto-generate slug from title on create, and re-generate if title changes.
 // Appends -2, -3, etc. on collision.
-PostSchema.pre('save', async function (next) {
+PostSchema.pre('validate', async function (next) {
   if (!this.isModified('title') && this.slug) {
     return next();
   }
