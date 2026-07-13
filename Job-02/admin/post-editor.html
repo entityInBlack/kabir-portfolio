@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Post — Kabir</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label {
+      display: block;
+      color: var(--white);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .form-group input[type="text"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--white);
+      padding: 0.65rem 0.9rem;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-group input[type="text"]:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .checkbox-row label {
+      margin: 0;
+      text-transform: none;
+      font-weight: 400;
+      letter-spacing: normal;
+      color: var(--gray);
+    }
+    .image-upload-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .image-preview {
+      width: 90px;
+      height: 90px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: none;
+    }
+    .upload-status {
+      font-size: 0.82rem;
+      color: var(--gray);
+    }
+    .upload-status.success { color: #6fcf7d; }
+    .upload-status.error { color: #e06c6c; }
+    .form-error {
+      color: #e06c6c;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      display: none;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: #111;
+      border: none;
+      padding: 0.7rem 1.6rem;
+      border-radius: 4px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-gold:disabled { opacity: 0.6; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../index.html">Kabir</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ===================== PAGE TITLE ===================== -->
+    <section class="page-title-section">
+      <div class="container">
+        <h1 class="section-title fade-up fade-up-1">New Post</h1>
+        <p class="fade-up fade-up-2">Create a new project or blog entry.</p>
+        <p class="breadcrumb-nav fade-up fade-up-3">
+          <a href="../index.html">Home</a> &nbsp;/&nbsp;
+          <a href="dashboard.html">Admin Dashboard</a> &nbsp;/&nbsp;
+          <a href="posts.html">Manage Posts</a> &nbsp;/&nbsp; New Post
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== EDITOR FORM ===================== -->
+    <section class="contact-form-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+
+            <div id="loadingState" class="service-card" style="padding:2.5rem; text-align:center;">
+              <p style="color:var(--gray); margin:0;">Checking session...</p>
+            </div>
+
+            <div id="editorCard" class="service-card" style="padding:2.5rem; display:none;">
+
+              <div class="form-group">
+                <label for="titleInput">Title *</label>
+                <input type="text" id="titleInput" placeholder="Post title">
+              </div>
+
+              <div class="form-group">
+                <label for="typeInput">Type *</label>
+                <select id="typeInput">
+                  <option value="project">Project</option>
+                  <option value="blog">Blog</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="excerptInput">Excerpt</label>
+                <textarea id="excerptInput" placeholder="Short summary (optional)"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="contentInput">Content</label>
+                <textarea id="contentInput" placeholder="Full content (optional)" style="min-height:180px;"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="imageInput">Cover Image (optional)</label>
+                <div class="image-upload-row">
+                  <input type="file" id="imageInput" accept="image/*">
+                  <img id="imagePreview" class="image-preview" alt="Cover preview">
+                  <span id="uploadStatus" class="upload-status"></span>
+                </div>
+              </div>
+
+              <div class="form-group checkbox-row">
+                <input type="checkbox" id="publishedInput">
+                <label for="publishedInput">Publish immediately</label>
+              </div>
+
+              <button id="saveBtn" class="btn-gold" type="button">Save Post</button>
+
+              <p id="formError" class="form-error"></p>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer text-white">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-12 text-center">
+          <p class="mb-0">&copy; 2025 Kabir. All rights reserved. &nbsp;|&nbsp;
+            <span id="live-clock" style="color:var(--gold);"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/admin-common.js"></script>
+  <script>
+    // Live clock (reused from login.html / dashboard.html pattern)
+    function updateClock() {
+      const el = document.getElementById('live-clock');
+      if (el) el.textContent = new Date().toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    const loadingState = document.getElementById('loadingState');
+    const editorCard = document.getElementById('editorCard');
+
+    const titleInput = document.getElementById('titleInput');
+    const typeInput = document.getElementById('typeInput');
+    const excerptInput = document.getElementById('excerptInput');
+    const contentInput = document.getElementById('contentInput');
+    const imageInput = document.getElementById('imageInput');
+    const imagePreview = document.getElementById('imagePreview');
+    const uploadStatus = document.getElementById('uploadStatus');
+    const publishedInput = document.getElementById('publishedInput');
+    const saveBtn = document.getElementById('saveBtn');
+    const formError = document.getElementById('formError');
+
+    // Holds the uploaded image result ({ url, publicId }) so a failed
+    // "Save Post" retry never re-uploads the image.
+    let coverImage = null;
+
+    function showError(message) {
+      formError.textContent = message;
+      formError.style.display = 'block';
+    }
+
+    function clearError() {
+      formError.style.display = 'none';
+      formError.textContent = '';
+    }
+
+    // ===================== IMAGE UPLOAD (separate step) =====================
+    imageInput.addEventListener('change', function () {
+      const file = imageInput.files[0];
+      if (!file) return;
+
+      coverImage = null;
+      imagePreview.style.display = 'none';
+      uploadStatus.textContent = 'Uploading...';
+      uploadStatus.className = 'upload-status';
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        const base64Data = reader.result;
+        const token = localStorage.getItem('adminToken');
+
+        fetch('/api/upload/image', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ image: base64Data })
+        })
+          .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+          .then(function (result) {
+            if (result.ok && result.data.url) {
+              coverImage = { url: result.data.url, publicId: result.data.publicId };
+              imagePreview.src = coverImage.url;
+              imagePreview.style.display = 'block';
+              uploadStatus.textContent = 'Uploaded';
+              uploadStatus.className = 'upload-status success';
+            } else {
+              uploadStatus.textContent = 'Upload failed. Try again.';
+              uploadStatus.className = 'upload-status error';
+            }
+          })
+          .catch(function () {
+            uploadStatus.textContent = 'Upload failed. Try again.';
+            uploadStatus.className = 'upload-status error';
+          });
+      };
+      reader.onerror = function () {
+        uploadStatus.textContent = 'Could not read file.';
+        uploadStatus.className = 'upload-status error';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // ===================== SAVE POST =====================
+    saveBtn.addEventListener('click', function () {
+      clearError();
+
+      const title = titleInput.value.trim();
+      const type = typeInput.value;
+
+      if (!title) {
+        showError('Title is required.');
+        return;
+      }
+
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+
+      const token = localStorage.getItem('adminToken');
+
+      const payload = {
+        title: title,
+        type: type,
+        excerpt: excerptInput.value.trim(),
+        content: contentInput.value.trim(),
+        coverImage: coverImage,
+        published: publishedInput.checked
+      };
+
+      fetch('/api/posts/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+        .then(function (result) {
+          if (result.ok && result.data.post) {
+            window.location.href = 'posts.html';
+          } else {
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Save Post';
+            showError((result.data && result.data.error) || 'Could not save post. Please try again.');
+          }
+        })
+        .catch(function () {
+          saveBtn.disabled = false;
+          saveBtn.textContent = 'Save Post';
+          showError('Network error. Please try again.');
+        });
+    });
+
+    // ===================== AUTH CHECK =====================
+    checkAdminAuth(function () {
+      loadingState.style.display = 'none';
+      editorCard.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
