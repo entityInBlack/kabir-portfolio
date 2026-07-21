@@ -36,6 +36,10 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Post id is required' });
   }
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid post id' });
+  }
+
   try {
     await connectDB();
 
@@ -45,10 +49,6 @@ module.exports = async (req, res) => {
       return res.status(404).json({ error: 'Post not found' });
     }
 
-    // Post is already gone from MongoDB (source of truth) at this point.
-    // If Cloudinary cleanup fails here, the image becomes orphaned —
-    // an accepted, known scenario, handled later by the planned
-    // orphaned-images cleanup admin feature. We don't fail the request over it.
     if (deleted.coverImage && deleted.coverImage.publicId) {
       try {
         await deleteImage(deleted.coverImage.publicId);

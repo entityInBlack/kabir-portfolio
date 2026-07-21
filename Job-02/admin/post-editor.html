@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Post — Kabir</title>
+  <title id="pageTitle">New Post — Kabir</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <style>
@@ -99,12 +99,12 @@
     <!-- ===================== PAGE TITLE ===================== -->
     <section class="page-title-section">
       <div class="container">
-        <h1 class="section-title fade-up fade-up-1">New Post</h1>
-        <p class="fade-up fade-up-2">Create a new project or blog entry.</p>
+        <h1 id="headingTitle" class="section-title fade-up fade-up-1">New Post</h1>
+        <p id="headingSubtitle" class="fade-up fade-up-2">Create a new project or blog entry.</p>
         <p class="breadcrumb-nav fade-up fade-up-3">
           <a href="../index.html">Home</a> &nbsp;/&nbsp;
           <a href="dashboard.html">Admin Dashboard</a> &nbsp;/&nbsp;
-          <a href="posts.html">Manage Posts</a> &nbsp;/&nbsp; New Post
+          <a href="posts.html">Manage Posts</a> &nbsp;/&nbsp; <span id="breadcrumbCurrent">New Post</span>
         </p>
       </div>
     </section>
@@ -209,8 +209,24 @@
     const saveBtn = document.getElementById('saveBtn');
     const formError = document.getElementById('formError');
 
-    // Holds the uploaded image result ({ url, publicId }) so a failed
-    // "Save Post" retry never re-uploads the image.
+    // ===================== EDIT MODE DETECTION =====================
+    // Presence of ?id= in the URL determines create vs edit mode throughout.
+    const urlParams = new URLSearchParams(window.location.search);
+    const editId = urlParams.get('id');
+    const isEditMode = !!editId;
+
+    if (isEditMode) {
+      document.getElementById('pageTitle').textContent = 'Edit Post — Kabir';
+      document.getElementById('headingTitle').textContent = 'Edit Post';
+      document.getElementById('headingSubtitle').textContent = 'Update this project or blog entry.';
+      document.getElementById('breadcrumbCurrent').textContent = 'Edit Post';
+      saveBtn.textContent = 'Update Post';
+    }
+
+    // Holds the current cover image ({ url, publicId }).
+    // In edit mode this starts as the post's existing image and is only
+    // replaced if the admin uploads a new one — so a save without touching
+    // the image field doesn't wipe out the existing cover image.
     let coverImage = null;
 
     function showError(message) {
@@ -271,7 +287,49 @@
       reader.readAsDataURL(file);
     });
 
-    // ===================== SAVE POST =====================
+    // ===================== LOAD EXISTING POST (edit mode only) =====================
+    function loadPostForEdit(callback) {
+      const token = localStorage.getItem('adminToken');
+
+      fetch('/api/posts/get?id=' + encodeURIComponent(editId), {
+        method: 'GET',
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+        .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+        .then(function (result) {
+          if (!result.ok || !result.data.post) {
+            showError((result.data && result.data.error) || 'Post not found. It may have been deleted.');
+            saveBtn.disabled = true;
+            callback();
+            return;
+          }
+
+          const post = result.data.post;
+
+          titleInput.value = post.title || '';
+          typeInput.value = post.type || 'project';
+          excerptInput.value = post.excerpt || '';
+          contentInput.value = post.content || '';
+          publishedInput.checked = !!post.published;
+
+          if (post.coverImage && post.coverImage.url) {
+            coverImage = { url: post.coverImage.url, publicId: post.coverImage.publicId };
+            imagePreview.src = coverImage.url;
+            imagePreview.style.display = 'block';
+            uploadStatus.textContent = 'Current image';
+            uploadStatus.className = 'upload-status';
+          }
+
+          callback();
+        })
+        .catch(function () {
+          showError('Could not load post. Please refresh and try again.');
+          saveBtn.disabled = true;
+          callback();
+        });
+    }
+
+    // ===================== SAVE POST (create or update) =====================
     saveBtn.addEventListener('click', function () {
       clearError();
 
@@ -284,7 +342,7 @@
       }
 
       saveBtn.disabled = true;
-      saveBtn.textContent = 'Saving...';
+      saveBtn.textContent = isEditMode ? 'Updating...' : 'Saving...';
 
       const token = localStorage.getItem('adminToken');
 
@@ -297,8 +355,15 @@
         published: publishedInput.checked
       };
 
-      fetch('/api/posts/create', {
-        method: 'POST',
+      const endpoint = isEditMode ? '/api/posts/update' : '/api/posts/create';
+      const method = isEditMode ? 'PUT' : 'POST';
+
+      if (isEditMode) {
+        payload.id = editId;
+      }
+
+      fetch(endpoint, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
@@ -311,21 +376,28 @@
             window.location.href = 'posts.html';
           } else {
             saveBtn.disabled = false;
-            saveBtn.textContent = 'Save Post';
+            saveBtn.textContent = isEditMode ? 'Update Post' : 'Save Post';
             showError((result.data && result.data.error) || 'Could not save post. Please try again.');
           }
         })
         .catch(function () {
           saveBtn.disabled = false;
-          saveBtn.textContent = 'Save Post';
+          saveBtn.textContent = isEditMode ? 'Update Post' : 'Save Post';
           showError('Network error. Please try again.');
         });
     });
 
     // ===================== AUTH CHECK =====================
     checkAdminAuth(function () {
-      loadingState.style.display = 'none';
-      editorCard.style.display = 'block';
+      if (isEditMode) {
+        loadPostForEdit(function () {
+          loadingState.style.display = 'none';
+          editorCard.style.display = 'block';
+        });
+      } else {
+        loadingState.style.display = 'none';
+        editorCard.style.display = 'block';
+      }
     });
   </script>
 </body>
